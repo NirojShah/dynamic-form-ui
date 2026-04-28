@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 /* ─────────────────────────────────────────────
    WISE DESIGN SYSTEM — NEPTUNE TOKENS
@@ -55,7 +55,7 @@ const W = {
 };
 
 /* ── Spacing scale (4px base) ── */
-const sp = (n) => `${n * 4}px`;
+
 
 /* ── Border radius ── */
 const r = { sm: "8px", md: "12px", lg: "16px", xl: "24px", full: "999px" };
@@ -1078,7 +1078,7 @@ function LogicView({ fields }) {
   );
 }
 
-function StylePanel({ onClose }) {
+function StylePanel() {
   return (
     <div className="right-panel">
       <div className="rp-header"><div className="rp-header-title">Style</div><div className="rp-header-sub">Wise Design System</div></div>
@@ -1457,7 +1457,6 @@ export default function Sample() {
   const [libSearch, setLibSearch]     = useState("");
   const [dragId, setDragId]           = useState(null);
   const [dragOvId, setDragOvId]       = useState(null);
-  const saveTimer = useRef(null);
 
   const form = forms.find(f=>f.id===currentId);
   const selField = form?.fields.find(f=>f.id===selFieldId);
