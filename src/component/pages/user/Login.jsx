@@ -3,8 +3,10 @@ import Button from "../../common/Button";
 import Input from "../../common/Input";
 import handleFormChange from "../../../utility/utility";
 import userApis from "../../../utility/user.api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -16,7 +18,11 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await userApis.login(formData)
+        const resp = await userApis.login(formData)
+        if (resp.success) {
+            navigate("/")
+        }
+
     };
 
     return (
