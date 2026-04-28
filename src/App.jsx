@@ -11,6 +11,7 @@ import Notifications from "./notification/notification.context";
 import GlobalMessage from "./notification/GlobalMessage";
 
 import { setNotifier } from "./notification/notification.service";
+import Sample from "./component/Sample";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -78,6 +79,15 @@ const AppContent = () => {
           element={
             <ProtectedRoute isAuthorized={isAuthorized} loading={loading}>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/sample"
+          element={
+            <ProtectedRoute isAuthorized={isAuthorized} loading={loading}>
+              <Sample />
             </ProtectedRoute>
           }
         />
