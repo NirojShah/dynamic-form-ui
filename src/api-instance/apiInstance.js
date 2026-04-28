@@ -1,20 +1,49 @@
+import { showError, showSuccess } from "../notification/notification.service";
+
 const BASE_URL = import.meta.env.VITE_FORMS_API;
 
-// ─── Helper to build headers ────────────────────────────────────────────────
 const buildHeaders = () => {
+  const token = localStorage.getItem("token");
+
   return {
     "Content-Type": "application/json",
+    ...(token && {
+      Authorization: `Bearer ${token}`,
+    }),
   };
 };
 
-// ─── Helper to handle response ──────────────────────────────────────────────
+const commonConfig = {
+  credentials: "include",
+};
+
+const parseResponse = async (res) => {
+  const contentType = res.headers.get("content-type");
+
+  if (contentType && contentType.includes("application/json")) {
+    return await res.json();
+  }
+
+  return {};
+};
+
 const handleResponse = async (res) => {
-  const data = await res.json();
+  let data = {};
+
+  try {
+    data = await parseResponse(res);
+  } catch (error) {
+    data = { message: error.message };
+  }
 
   if (!res.ok) {
+    const message = data?.message || "Something went wrong";
+
+    showError(message);
+
     throw {
       status: res.status,
-      message: data.message || "Something went wrong",
+      message,
       data,
     };
   }
@@ -22,75 +51,43 @@ const handleResponse = async (res) => {
   return data;
 };
 
-// ─── Common Fetch Config ────────────────────────────────────────────────────
-const commonConfig = {
-  credentials: "include",
-};
-
-// ─── GET ────────────────────────────────────────────────────────────────────
-const get = async (endpoint) => {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    method: "GET",
+const request = async (endpoint, method = "GET", body = null) => {
+  const config = {
+    method,
     headers: buildHeaders(),
     ...commonConfig,
-  });
+  };
+
+  if (body) {
+    config.body = JSON.stringify(body);
+  }
+
+  const res = await fetch(`${BASE_URL}${endpoint}`, config);
 
   return handleResponse(res);
 };
 
-// ─── POST ───────────────────────────────────────────────────────────────────
-const post = async (endpoint, body = {}) => {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    method: "POST",
-    headers: buildHeaders(),
-    body: JSON.stringify(body),
-    ...commonConfig,
-  });
+const get = (endpoint) => request(endpoint, "GET");
+const post = (endpoint, body = {}) => request(endpoint, "POST", body);
+const put = (endpoint, body = {}) => request(endpoint, "PUT", body);
+const patch = (endpoint, body = {}) => request(endpoint, "PATCH", body);
+const del = (endpoint) => request(endpoint, "DELETE");
 
-  return handleResponse(res);
+const postWithSuccess = async (
+  endpoint,
+  body = {},
+  successMessage = "Success",
+) => {
+  const data = await post(endpoint, body);
+  showSuccess(successMessage);
+  return data;
 };
 
-// ─── PUT ────────────────────────────────────────────────────────────────────
-const put = async (endpoint, body = {}) => {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    method: "PUT",
-    headers: buildHeaders(),
-    body: JSON.stringify(body),
-    ...commonConfig,
-  });
-
-  return handleResponse(res);
-};
-
-// ─── PATCH ──────────────────────────────────────────────────────────────────
-const update = async (endpoint, body = {}) => {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    method: "PATCH",
-    headers: buildHeaders(),
-    body: JSON.stringify(body),
-    ...commonConfig,
-  });
-
-  return handleResponse(res);
-};
-
-// ─── DELETE ────────────────────────────────────────────────────────────────
-const del = async (endpoint) => {
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    method: "DELETE",
-    headers: buildHeaders(),
-    ...commonConfig,
-  });
-
-  return handleResponse(res);
-};
-
-const methods = {
+export default {
   get,
   post,
   put,
-  update,
+  patch,
   del,
+  postWithSuccess,
 };
-
-export default methods;
