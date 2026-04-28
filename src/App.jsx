@@ -3,27 +3,40 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./component/pages/user/Login";
 import Signup from "./component/pages/user/Signup";
-import getMe from "./utility/auth.api";
 import Home from "./component/pages/home/Home";
+
+import getMe from "./utility/auth.api";
+
+import Notifications from "./notification/notification.context";
+import GlobalMessage from "./notification/GlobalMessage";
+
+import { setNotifier } from "./notification/notification.service";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
+
   return isAuthorized ? children : <Navigate to="/login" replace />;
 };
 
 const PublicRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
+
   return isAuthorized ? <Navigate to="/" replace /> : children;
 };
 
-const App = () => {
+const AppContent = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const notification = Notifications.useNotification();
+
+  useEffect(() => {
+    setNotifier(notification);
+  }, [notification]);
 
   const checkIsAuthenticated = async () => {
     try {
       const resp = await getMe();
-
       setIsAuthorized(resp?.status === "success");
     } catch (error) {
       console.log(error);
@@ -39,6 +52,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <GlobalMessage />
+
       <Routes>
         <Route
           path="/login"
@@ -73,7 +88,7 @@ const App = () => {
             loading ? (
               <h1>Loading...</h1>
             ) : isAuthorized ? (
-              <Navigate to="/sample" replace />
+              <Navigate to="/" replace />
             ) : (
               <Navigate to="/login" replace />
             )
@@ -81,6 +96,14 @@ const App = () => {
         />
       </Routes>
     </BrowserRouter>
+  );
+};
+
+const App = () => {
+  return (
+    <Notifications.NotificationProvider>
+      <AppContent />
+    </Notifications.NotificationProvider>
   );
 };
 
