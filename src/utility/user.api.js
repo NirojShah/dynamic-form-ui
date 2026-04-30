@@ -32,7 +32,7 @@ const signUp = async ({ name, email, password, organizationId }) => {
 
 const getMe = async () => {
   try {
-    const resp = await methods.get("/user/me");
+    const resp = await methods.get("/user/me");    
     return resp;
   } catch (err) {
     return {
