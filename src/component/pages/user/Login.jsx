@@ -21,8 +21,8 @@ const Login = () => {
         const resp = await userApis.login(formData)
         if (resp.success) {
             navigate("/")
+            window.navigation.navigate("/")
         }
-
     };
 
     return (

@@ -12,6 +12,8 @@ import GlobalMessage from "./notification/GlobalMessage";
 
 import { setNotifier } from "./notification/notification.service";
 import Sample from "./component/Sample";
+import userStore from "./store/user.store";
+import MainLayout from "./component/pages/home/Home";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -29,6 +31,9 @@ const AppContent = () => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const setUser = userStore((state) => state.setUser);
+  // const name = userStore((state) => state.name);
+
   const notification = Notifications.useNotification();
 
   useEffect(() => {
@@ -37,8 +42,15 @@ const AppContent = () => {
 
   const checkIsAuthenticated = async () => {
     try {
+      // if (!name) {
       const resp = await getMe();
+      setUser({
+        userName: resp.data?.name,
+        email: resp.data?.email,
+        organization: resp.data?.organizationName,
+      });
       setIsAuthorized(resp?.status === "success");
+      // }
     } catch (error) {
       console.log(error);
       setIsAuthorized(false);
@@ -104,6 +116,21 @@ const AppContent = () => {
             )
           }
         />
+
+        <Route path="/home" element={<MainLayout />}>
+          <Route index element={<h1>My Forms</h1>} />
+          <Route path="create-form" element={<h1>Create Form</h1>} />
+          <Route path="profile" element={<h1>Profile</h1>} />
+          <Route path="myforms" element={<h1>My Forms</h1>} />
+          <Route path="shared" element={<h1>Shared with me</h1>} />
+          <Route path="templates" element={<h1>Templates</h1>} />
+          <Route path="analytics" element={<h1>Analytics</h1>} />
+          <Route path="client" element={<h1>Client Work</h1>} />
+          <Route path="surveys" element={<h1>Surveys</h1>} />
+          <Route path="archive" element={<h1>Archive</h1>} />
+          <Route path="integrations" element={<h1>Integrations</h1>} />
+          <Route path="settings" element={<h1>Settings</h1>} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
