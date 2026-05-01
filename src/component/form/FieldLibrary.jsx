@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import formFieldStore from "../../store/fields.store";
 
 const FieldLibrary = ({ onSelect }) => {
   const [search, setSearch] = useState("");
+
+  const { setSelectedField } = formFieldStore();
 
   const groups = [
     {
@@ -41,17 +44,18 @@ const FieldLibrary = ({ onSelect }) => {
 
   const handleSelect = (field) => {
     console.log("Selected field:", field);
+    setSelectedField({
+      type: field.type,
+      label: field.label,
+    });
     onSelect?.(field);
   };
 
   const filterFields = (fields) =>
-    fields.filter((f) =>
-      f.label.toLowerCase().includes(search.toLowerCase())
-    );
+    fields.filter((f) => f.label.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="w-full h-full flex flex-col border-r border-black/10 bg-white">
-      
       {/* SEARCH */}
       <div className="p-3 border-b border-black/10">
         <input
@@ -71,7 +75,6 @@ const FieldLibrary = ({ onSelect }) => {
 
           return (
             <div key={group.title}>
-              
               {/* GROUP TITLE */}
               <div className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">
                 {group.title}
