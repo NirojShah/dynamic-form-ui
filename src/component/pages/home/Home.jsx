@@ -1,16 +1,38 @@
 import React from "react";
-import Button from "../../common/Button";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import Nav from "../../navigation/Nav";
+import VertNav from "../../navigation/VertNav";
+import FieldLibrary from "../../form/FieldLibrary";
+import FieldLayout from "../../form/FieldLayout";
 
-const Home = () => {
-  const navigate = useNavigate()
-  return <div>
-    <Button onClick={() => {
-      navigate("/sample")
-    }}>
-      sample
-    </Button>
-  </div>;
+const MainLayout = () => {
+  const location = useLocation();
+
+  const isCreatePage = location.pathname.includes("/create-form");
+
+  return (
+    <div className="h-screen flex flex-col bg-white">
+      {/* TOP NAV */}
+      <Nav />
+
+      {/* MAIN CONTENT */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* LEFT SIDE */}
+        <div className="border-r border-black/10 w-16 md:w-64">
+          {isCreatePage ? <FieldLibrary /> : <VertNav />}
+        </div>
+
+        {/* RIGHT CONTENT */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <Outlet />
+        </div>
+
+        <div>
+          <FieldLayout />
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Home;
+export default MainLayout;
