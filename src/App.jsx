@@ -15,6 +15,7 @@ import Sample from "./component/Sample";
 import userStore from "./store/user.store";
 import MainLayout from "./component/pages/home/Home";
 import MyForms from "./component/pages/form/myforms/MyForms";
+import CreateForm from "./component/pages/form/create-form/CreateForm";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -120,7 +121,7 @@ const AppContent = () => {
 
         <Route path="/home" element={<MainLayout />}>
           <Route index element={<MyForms />} />
-          <Route path="create-form" element={<h1>Create Form</h1>} />
+          <Route path="create-form" element={<CreateForm />} />
           <Route path="profile" element={<h1>Profile</h1>} />
           <Route path="myforms" element={<h1>My Forms</h1>} />
           <Route path="shared" element={<h1>Shared with me</h1>} />
