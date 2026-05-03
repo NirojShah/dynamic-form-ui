@@ -1,6 +1,8 @@
 // CreateForm.jsx
 import React, { useState } from "react";
 import formFieldStore from "../../../../store/fields.store";
+import Button from "../../../common/Button";
+import formsApi from "../../../../utility/forms.api";
 
 // Renders a read-only preview of a field's input based on its type
 const FieldInput = ({ field }) => {
@@ -37,7 +39,10 @@ const FieldInput = ({ field }) => {
       return (
         <div className="flex flex-col gap-[6px]">
           {(field.options || []).map((opt, i) => (
-            <div key={i} className="flex items-center gap-2 text-[13px] text-gray-500">
+            <div
+              key={i}
+              className="flex items-center gap-2 text-[13px] text-gray-500"
+            >
               <div className="w-[14px] h-[14px] rounded-full border border-gray-300 flex-shrink-0" />
               {opt}
             </div>
@@ -49,7 +54,10 @@ const FieldInput = ({ field }) => {
       return (
         <div className="flex flex-col gap-[6px]">
           {(field.options || []).map((opt, i) => (
-            <div key={i} className="flex items-center gap-2 text-[13px] text-gray-500">
+            <div
+              key={i}
+              className="flex items-center gap-2 text-[13px] text-gray-500"
+            >
               <div className="w-[14px] h-[14px] rounded border border-gray-300 flex-shrink-0" />
               {opt}
             </div>
@@ -61,7 +69,9 @@ const FieldInput = ({ field }) => {
       return (
         <div className="flex gap-1">
           {Array.from({ length: field.maxStars || 5 }).map((_, i) => (
-            <span key={i} className="text-gray-200 text-[20px] leading-none">★</span>
+            <span key={i} className="text-gray-200 text-[20px] leading-none">
+              ★
+            </span>
           ))}
         </div>
       );
@@ -95,7 +105,9 @@ const FieldInput = ({ field }) => {
     case "heading": {
       const sizes = { h1: "text-2xl", h2: "text-xl", h3: "text-base" };
       return (
-        <p className={`${sizes[field.level] || "text-xl"} font-semibold text-[#0E0F0C]`}>
+        <p
+          className={`${sizes[field.level] || "text-xl"} font-semibold text-[#0E0F0C]`}
+        >
           {field.label || "Heading"}
         </p>
       );
@@ -113,15 +125,16 @@ const FieldInput = ({ field }) => {
 const FieldPreview = ({ field, isSelected, onClick }) => {
   const isDivider = field.type === "divider";
   const isHeading = field.type === "heading";
-  const isLayout  = isDivider || isHeading;
+  const isLayout = isDivider || isHeading;
 
   return (
     <div
       onClick={onClick}
       className={`relative group rounded-lg border transition-all cursor-pointer
-        ${isSelected
-          ? "border-[#9FE870] bg-[#f7fff2] shadow-sm"
-          : "border-black/10 bg-white hover:border-black/20"
+        ${
+          isSelected
+            ? "border-[#9FE870] bg-[#f7fff2] shadow-sm"
+            : "border-black/10 bg-white hover:border-black/20"
         }
         ${isLayout ? "px-4 py-3" : "px-4 pt-3 pb-4"}
       `}
@@ -146,7 +159,9 @@ const FieldPreview = ({ field, isSelected, onClick }) => {
           </span>
           {field.required && <span className="text-red-400 ml-[2px]">*</span>}
           {field.helpText && (
-            <p className="text-[11px] text-gray-400 mt-[2px]">{field.helpText}</p>
+            <p className="text-[11px] text-gray-400 mt-[2px]">
+              {field.helpText}
+            </p>
           )}
         </div>
       )}
@@ -157,31 +172,41 @@ const FieldPreview = ({ field, isSelected, onClick }) => {
 };
 
 const CreateForm = () => {
-  const fields      = formFieldStore((s) => s.fields);
-  const selectedId  = formFieldStore((s) => s.selectedId);
-  const addField    = formFieldStore((s) => s.addField);
+  const fields = formFieldStore((s) => s.fields);
+  const selectedId = formFieldStore((s) => s.selectedId);
+  const addField = formFieldStore((s) => s.addField);
   const setSelected = formFieldStore((s) => s.setSelectedField);
 
+  const field = formFieldStore((state) => state.fields);
+
   const [title, setTitle] = useState("");
-  const [desc,  setDesc]  = useState("");
+  const [desc, setDesc] = useState("");
 
   const handleAddField = () => {
     const newField = {
-      id:          crypto.randomUUID(),
-      type:        "text",
-      label:       "Short text",
-      required:    false,
-      hidden:      false,
+      id: crypto.randomUUID(),
+      type: "text",
+      label: "Short text",
+      required: false,
+      hidden: false,
       placeholder: "",
-      helpText:    "",
+      helpText: "",
     };
     addField(newField);
+  };
+
+  const handleCreateform = async (fields, title, desc) => {
+    try {
+      const resp = await formsApi.createForm({ desc, fields, title });
+      console.log({ resp });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#f5f5f3] p-6 flex flex-col items-center">
       <div className="w-full max-w-[600px] flex flex-col gap-3">
-
         {/* FORM HEADER CARD */}
         <div className="bg-white rounded-xl border border-black/8 overflow-hidden">
           <div className="h-[6px] bg-[#9FE870]" />
@@ -203,15 +228,16 @@ const CreateForm = () => {
 
         {/* FIELD CARDS — hidden fields are greyed out in builder but still shown */}
         {fields.map((field) => (
-          <div
-            key={field.id}
-            className={field.hidden ? "opacity-40" : ""}
-          >
+          <div key={field.id} className={field.hidden ? "opacity-40" : ""}>
             <FieldPreview
               field={field}
               isSelected={field.id === selectedId}
               onClick={() =>
-                setSelected({ id: field.id, type: field.type, label: field.label })
+                setSelected({
+                  id: field.id,
+                  type: field.type,
+                  label: field.label,
+                })
               }
             />
           </div>
@@ -224,8 +250,15 @@ const CreateForm = () => {
         >
           + Add a field
         </button>
-
       </div>
+      <Button
+        type="primary"
+        onClick={() => {
+          handleCreateform(field, title, desc);
+        }}
+      >
+        submit
+      </Button>
     </div>
   );
 };
