@@ -123,7 +123,7 @@ const AppContent = () => {
           <Route index element={<MyForms />} />
           <Route path="create-form" element={<CreateForm />} />
           <Route path="profile" element={<h1>Profile</h1>} />
-          <Route path="myforms" element={<h1>My Forms</h1>} />
+          <Route path="myforms" element={<MyForms />} />
           <Route path="shared" element={<h1>Shared with me</h1>} />
           <Route path="templates" element={<h1>Templates</h1>} />
           <Route path="analytics" element={<h1>Analytics</h1>} />
