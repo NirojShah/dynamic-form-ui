@@ -6,7 +6,13 @@ import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const userName = userStore((state) => state.userName);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const handleClick = ()=>{
+    navigate("/")
+
+  }
+  
+
 
   return (
     <div
@@ -15,7 +21,7 @@ const Nav = () => {
     >
       {/* LEFT */}
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" onClick={handleClick}>
           <div className="w-8 h-8 flex items-center justify-center rounded-md bg-[#163300] text-white text-xs font-bold">
             FC
           </div>

@@ -17,8 +17,23 @@ const myforms = async () => {
   }
 };
 
+const createForm = async ({ fields, title, desc }) => {
+  try {
+    // console.log(fields);
+    const resp = await methods.post("/form/form-fields", {
+      fields,
+      title,
+      desc,
+    });
+    console.log(resp);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const formsApi = {
   myforms,
+  createForm,
 };
 
 export default formsApi;
