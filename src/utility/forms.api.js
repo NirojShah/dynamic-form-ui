@@ -31,9 +31,29 @@ const createForm = async ({ fields, title, desc }) => {
   }
 };
 
+const getPublicLink = async (name, orgName) => {
+  try {
+    const resp = await methods.post("/form/get-public-link", {
+      name: name,
+      orgName: orgName,
+    });
+
+    return resp.data.url;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getPublicFormFields = async (key) => {
+  const resp = await methods.get(`/public/form/${key}`);
+  return resp;
+};
+
 const formsApi = {
   myforms,
   createForm,
+  getPublicLink,
+  getPublicFormFields,
 };
 
 export default formsApi;
