@@ -5,22 +5,22 @@ import FormCard from "../../../common/FormCards";
 const MyForms = () => {
   const [forms, setForms] = useState([]);
 
-  const fetchForms = async () => {
-    try {
-      const resp = await formsApi.myforms();
-      setForms(resp.data); 
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const resp = await formsApi.myforms();
+        setForms(resp.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchForms();
   }, []);
 
-  const handleClick = (title,organization)=>{
-    console.log("i am clicked...",{title,organization});
-    
+  const handleClick = (title, organization) => {
+    console.log("i am clicked...", { title, organization });
+
   }
 
   return (
@@ -31,7 +31,7 @@ const MyForms = () => {
             description={val.description}
             organization={val.organizationName}
             title={val.name}
-            onClick={handleClick} 
+            onClick={handleClick}
             key={val._id}
           />
         );
