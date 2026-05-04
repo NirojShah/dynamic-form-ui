@@ -16,6 +16,7 @@ import userStore from "./store/user.store";
 import MainLayout from "./component/pages/home/Home";
 import MyForms from "./component/pages/form/myforms/MyForms";
 import CreateForm from "./component/pages/form/create-form/CreateForm";
+import FormPublic from "./component/pages/Form-Public/FormPublic";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -120,8 +121,14 @@ const AppContent = () => {
         />
 
         <Route path="/home" element={<MainLayout />}>
-          <Route index element={<MyForms />} />
-          <Route path="create-form" element={<CreateForm />} />
+          <Route index element={
+            <ProtectedRoute isAuthorized={isAuthorized} loading={loading}>
+              <MyForms />
+            </ProtectedRoute>
+          } />
+          <Route path="create-form" element={
+            <ProtectedRoute isAuthorized={isAuthorized} loading={loading}><CreateForm /></ProtectedRoute>
+          } />
           <Route path="profile" element={<h1>Profile</h1>} />
           <Route path="myforms" element={<MyForms />} />
           <Route path="shared" element={<h1>Shared with me</h1>} />
@@ -133,6 +140,8 @@ const AppContent = () => {
           <Route path="integrations" element={<h1>Integrations</h1>} />
           <Route path="settings" element={<h1>Settings</h1>} />
         </Route>
+
+        <Route path="/public/:key" element={<FormPublic />} />
       </Routes>
     </BrowserRouter>
   );
