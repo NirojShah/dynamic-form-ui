@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import formsApi from "../../utility/forms.api";
 
 const sizeStyles = {
   sm: "p-4 text-sm",
@@ -21,8 +22,11 @@ const FormCard = ({
   variant = "default",
   className = "",
 }) => {
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef();
+
   const classes = [
-    "w-full rounded-2xl text-left transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-black/10",
+    "relative w-full rounded-2xl cursor-pointer transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-black/10",
     sizeStyles[size],
     variantStyles[variant],
     className,
@@ -30,14 +34,65 @@ const FormCard = ({
     .filter(Boolean)
     .join(" ");
 
+  useEffect(() => {
+    const handler = (e) => {
+      if (!menuRef.current?.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, []);
+
+  const handleCopy = async () => {
+    try {
+      const resp = await formsApi.getPublicLink(title, organization);
+      const url = `${window.location.origin}/public/${resp}`
+      await navigator.clipboard.writeText(url);
+      setOpen(false);
+      // replace with toast ideally
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <button
-      type="button"
-      onClick={() => {
-        onClick(title, organization);
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onClick(title, organization)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") onClick(title, organization);
       }}
       className={classes}
     >
+      {/* 3-dot menu */}
+      <div
+        ref={menuRef}
+        className="absolute top-3 right-3"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
+          className="p-1 rounded-md hover:bg-black/10"
+        >
+          ⋮
+        </button>
+
+        {open && (
+          <div className="absolute right-0 p-2 mt-2 w-40 rounded-lg border bg-white shadow-md z-10">
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+            >
+              Copy form link
+            </button>
+          </div>
+        )}
+      </div>
+
       {organization && (
         <div className="mb-3">
           <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#454745]">
@@ -57,7 +112,7 @@ const FormCard = ({
           </p>
         )}
       </div>
-    </button>
+    </div>
   );
 };
 
