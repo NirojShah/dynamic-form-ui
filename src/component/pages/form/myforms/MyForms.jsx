@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import formsApi from "../../../../utility/forms.api";
 import FormCard from "../../../common/FormCards";
+import { useNavigate } from "react-router-dom";
 
 const MyForms = () => {
   const [forms, setForms] = useState([]);
+  const navigate = useNavigate()
 
-  const fetchForms = async () => {
-    try {
-      const resp = await formsApi.myforms();
-      setForms(resp.data); 
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const resp = await formsApi.myforms();
+        setForms(resp.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     fetchForms();
   }, []);
 
-  const handleClick = (title,organization)=>{
-    console.log("i am clicked...",{title,organization});
-    
+  const handleClick = async (title, organization) => {
+    const resp = await formsApi.getPublicLink(title, organization);
+    navigate(`/home/response/${resp}`)
   }
 
   return (
@@ -28,10 +30,11 @@ const MyForms = () => {
       {forms.map((val) => {
         return (
           <FormCard
+            className="w-[300px]"
             description={val.description}
             organization={val.organizationName}
             title={val.name}
-            onClick={handleClick} 
+            onClick={handleClick}
             key={val._id}
           />
         );
