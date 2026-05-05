@@ -251,14 +251,17 @@ const CreateForm = () => {
           + Add a field
         </button>
       </div>
+      <div className="m-2">
+
       <Button
         type="primary"
         onClick={() => {
           handleCreateform(field, title, desc);
         }}
-      >
+        >
         submit
       </Button>
+        </div>
     </div>
   );
 };

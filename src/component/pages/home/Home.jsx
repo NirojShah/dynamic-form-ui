@@ -28,7 +28,11 @@ const MainLayout = () => {
         </div>
 
         <div>
-          <FieldLayout />
+          {
+          isCreatePage && <FieldLayout />
+
+          }
+          
         </div>
       </div>
     </div>

@@ -16,6 +16,9 @@ import userStore from "./store/user.store";
 import MainLayout from "./component/pages/home/Home";
 import MyForms from "./component/pages/form/myforms/MyForms";
 import CreateForm from "./component/pages/form/create-form/CreateForm";
+import FormPublic from "./component/pages/Form-Public/FormPublic";
+import Analytics from "./component/pages/analytics/Analytics";
+import FormResponse from "./component/pages/form response/FormResponse";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -62,7 +65,17 @@ const AppContent = () => {
   };
 
   useEffect(() => {
-    checkIsAuthenticated();
+    const path = window.location.pathname;
+
+    const excludedRoutes = ["/login", "/signup", "/public"];
+
+    const shouldSkip = excludedRoutes.some(route =>
+      path.includes(route)
+    );
+
+    if (!shouldSkip) {
+      checkIsAuthenticated();
+    }
   }, []);
 
   return (
@@ -120,19 +133,29 @@ const AppContent = () => {
         />
 
         <Route path="/home" element={<MainLayout />}>
-          <Route index element={<MyForms />} />
-          <Route path="create-form" element={<CreateForm />} />
+          <Route index element={
+            <ProtectedRoute isAuthorized={isAuthorized} loading={loading}>
+              <MyForms />
+            </ProtectedRoute>
+          } />
+          <Route path="create-form" element={
+            <ProtectedRoute isAuthorized={isAuthorized} loading={loading}><CreateForm /></ProtectedRoute>
+          } />
           <Route path="profile" element={<h1>Profile</h1>} />
           <Route path="myforms" element={<MyForms />} />
           <Route path="shared" element={<h1>Shared with me</h1>} />
           <Route path="templates" element={<h1>Templates</h1>} />
-          <Route path="analytics" element={<h1>Analytics</h1>} />
+          <Route path="analytics" element={<Analytics />} />
           <Route path="client" element={<h1>Client Work</h1>} />
           <Route path="surveys" element={<h1>Surveys</h1>} />
           <Route path="archive" element={<h1>Archive</h1>} />
           <Route path="integrations" element={<h1>Integrations</h1>} />
           <Route path="settings" element={<h1>Settings</h1>} />
+          <Route path="response/:formId" element={<FormResponse />} />
+
         </Route>
+
+        <Route path="/public/:key" element={<FormPublic />} />
       </Routes>
     </BrowserRouter>
   );
