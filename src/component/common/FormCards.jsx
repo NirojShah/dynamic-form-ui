@@ -64,12 +64,11 @@ const FormCard = ({
       onKeyDown={(e) => {
         if (e.key === "Enter") onClick(title, organization);
       }}
-      className={classes}
-    >
+      className={classes + " border-t-4 border-t-[#348303]"}    >
       {/* 3-dot menu */}
       <div
         ref={menuRef}
-        className="absolute top-3 right-3"
+        className="absolute top-3 right-3 "
         onClick={(e) => e.stopPropagation()}
       >
         <button
