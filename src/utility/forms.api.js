@@ -49,11 +49,21 @@ const getPublicFormFields = async (key) => {
   return resp;
 };
 
+const getResponses = async (key) => {
+  const resp = await methods.get(`/form/response/${key}`);
+  return resp;
+};
+
+const submitResponse = async(key, payload)=>{
+  const resp = await methods.post("/public/")
+}
+
 const formsApi = {
   myforms,
   createForm,
   getPublicLink,
   getPublicFormFields,
+  getResponses,
 };
 
 export default formsApi;
