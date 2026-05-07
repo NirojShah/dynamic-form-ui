@@ -123,7 +123,7 @@ const FormPublic = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validate()) return;
 
@@ -134,8 +134,12 @@ const FormPublic = () => {
                 value: formData[f.key],
             }));
 
-        console.log("Submitted:", formatted);
-        setSubmitted(true);
+        // console.log("Submitted:", formatted);
+        const resp = await formsApi.submitResponse(key, formatted)
+        if (resp.success) {
+            setSubmitted(true);
+            return
+        }
     };
 
     if (!form)
@@ -215,7 +219,7 @@ const FormPublic = () => {
                             </label>
 
                             {/* TEXT INPUT */}
-                            {["text", "email", "number", "phone"].includes(field.type) && (
+                            {["text", "email", "number", "phone", "date"].includes(field.type) && (
                                 <input
                                     type={field.type === "phone" ? "tel" : field.type}
                                     placeholder={field.placeholder}

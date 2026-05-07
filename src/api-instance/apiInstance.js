@@ -2,11 +2,11 @@ import { showError, showSuccess } from "../notification/notification.service";
 
 const BASE_URL = import.meta.env.VITE_FORMS_API;
 
-const buildHeaders = () => {
+const buildHeaders = (isFormData = false) => {
   const token = localStorage.getItem("token");
 
   return {
-    "Content-Type": "application/json",
+    ...( !isFormData && { "Content-Type": "application/json" }),
     ...(token && {
       Authorization: `Bearer ${token}`,
     }),
@@ -52,14 +52,16 @@ const handleResponse = async (res) => {
 };
 
 const request = async (endpoint, method = "GET", body = null) => {
+  const isFormData = body instanceof FormData;
+
   const config = {
     method,
-    headers: buildHeaders(),
+    headers: buildHeaders(isFormData),
     ...commonConfig,
   };
 
   if (body) {
-    config.body = JSON.stringify(body);
+    config.body = isFormData ? body : JSON.stringify(body);
   }
 
   const res = await fetch(`${BASE_URL}${endpoint}`, config);
