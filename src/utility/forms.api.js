@@ -49,14 +49,47 @@ const getPublicFormFields = async (key) => {
   return resp;
 };
 
-const getResponses = async (key) => {
-  const resp = await methods.get(`/form/response/${key}`);
+const getResponses = async ({ key, page = 1, limit = 10 }) => {
+  const resp = await methods.get(
+    `/form/response/${key}?page=${page}&limit=${limit}`,
+  );
   return resp;
 };
 
-const submitResponse = async(key, payload)=>{
-  const resp = await methods.post("/public/")
-}
+const submitResponse = async (key, payload) => {
+  try {
+    const formData = new FormData();
+
+    Object.keys(payload).forEach((field) => {
+      const item = payload[field];
+      const { key: label, value } = item;
+
+      // ✅ FILE OR SIGNATURE
+      if (value instanceof File || value instanceof Blob) {
+        const fileName = value instanceof File ? value.name : `${label}.png`;
+
+        // 1️⃣ send file
+        formData.append(`file_${field}`, value, fileName);
+
+        // 2️⃣ send metadata
+        formData.append(
+          `file_${field}_meta`,
+          JSON.stringify({
+            key: label,
+            fileName,
+          }),
+        );
+      } else {
+        formData.append(field, JSON.stringify(item));
+      }
+    });
+
+    const resp = await methods.post(`/public/form/${key}`, formData);
+    return resp;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const formsApi = {
   myforms,
@@ -64,6 +97,7 @@ const formsApi = {
   getPublicLink,
   getPublicFormFields,
   getResponses,
+  submitResponse,
 };
 
 export default formsApi;
