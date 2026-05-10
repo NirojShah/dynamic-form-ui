@@ -142,10 +142,15 @@ const AppContent = () => {
             <ProtectedRoute isAuthorized={isAuthorized} loading={loading}><CreateForm /></ProtectedRoute>
           } />
           <Route path="profile" element={<h1>Profile</h1>} />
-          <Route path="myforms" element={<MyForms />} />
+          <Route path="myforms" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading} >
+            <MyForms />
+          </ProtectedRoute>
+          } />
           <Route path="shared" element={<h1>Shared with me</h1>} />
           <Route path="templates" element={<h1>Templates</h1>} />
-          <Route path="analytics" element={<Analytics />} />
+          <Route path="analytics" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading} >
+            <Analytics />
+          </ProtectedRoute>} />
           <Route path="client" element={<h1>Client Work</h1>} />
           <Route path="surveys" element={<h1>Surveys</h1>} />
           <Route path="archive" element={<h1>Archive</h1>} />
