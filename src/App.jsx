@@ -19,6 +19,7 @@ import CreateForm from "./component/pages/form/create-form/CreateForm";
 import FormPublic from "./component/pages/Form-Public/FormPublic";
 import Analytics from "./component/pages/analytics/Analytics";
 import FormResponse from "./component/pages/form response/FormResponse";
+import UserCreation from "./component/pages/user/UserCreation";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -92,14 +93,14 @@ const AppContent = () => {
           }
         />
 
-        <Route
+        {/* <Route
           path="/signup"
           element={
             <PublicRoute isAuthorized={isAuthorized} loading={loading}>
-              <Signup />
+              <UserCreation />
             </PublicRoute>
           }
-        />
+        /> */}
 
         <Route
           path="/"
@@ -158,7 +159,13 @@ const AppContent = () => {
           <Route path="settings" element={<h1>Settings</h1>} />
           <Route path="response/:formId" element={<FormResponse />} />
 
+
+          {/* Organization and Admin creation. */}
+          <Route path="create-user" element={<UserCreation />} />
+
         </Route>
+
+        <Route path="/new-user" element={<UserCreation/>}/>
 
         <Route path="/public/:key" element={<FormPublic />} />
       </Routes>
