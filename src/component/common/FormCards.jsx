@@ -88,6 +88,12 @@ const FormCard = ({
             >
               Copy form link
             </button>
+            <button
+              className="block w-full px-4 py-2 text-left text-sm hover:bg-red-300"
+            >
+              delete
+              \
+            </button>
           </div>
         )}
       </div>

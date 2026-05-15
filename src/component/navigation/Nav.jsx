@@ -8,7 +8,7 @@ const Nav = () => {
   const userName = userStore((state) => state.userName);
   const navigate = useNavigate()
   const handleClick = ()=>{
-    navigate("/")
+    navigate("/home")
 
   }
   
