@@ -22,7 +22,7 @@ const AnalyticsCharts = ({ chartData }) => {
                     </p>
                 </div>
 
-                <div className="h-[320px]">
+                <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={chartData}>
                             <XAxis dataKey="day" />
