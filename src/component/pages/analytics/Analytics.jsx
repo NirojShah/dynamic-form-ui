@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import AnalyticsHeader from "./AnalyticsHeader";
 import AnalyticsStats from "./AnalyticsStats";
@@ -6,90 +6,55 @@ import AnalyticsCharts from "./AnalyticsCharts";
 import RecentForms from "./RecentForms";
 import RecentResponses from "./RecentResponses";
 import QuickActions from "./QuickActions";
+import analyticsApis from "../../../utility/analytics.api";
 
-const stats = [
-    {
-        label: "Total Forms",
-        value: 24,
-        growth: "+12%",
-    },
-    {
-        label: "Responses",
-        value: 1284,
-        growth: "+18%",
-    },
-    {
-        label: "Active Forms",
-        value: 12,
-        growth: "+6%",
-    },
-    {
-        label: "Conversion",
-        value: "82%",
-        growth: "+4%",
-    },
-];
-
-const forms = [
-    {
-        id: 1,
-        name: "Hiring Form",
-        responses: 120,
-        status: "Active",
-    },
-    {
-        id: 2,
-        name: "Feedback Survey",
-        responses: 340,
-        status: "Active",
-    },
-    {
-        id: 3,
-        name: "Employee Onboarding",
-        responses: 89,
-        status: "Draft",
-    },
-];
-
-const responses = [
-    {
-        id: 1,
-        user: "Niroj Shah",
-        form: "Hiring Form",
-        time: "2 min ago",
-    },
-    {
-        id: 2,
-        user: "Amit Kumar",
-        form: "Feedback Survey",
-        time: "10 min ago",
-    },
-    {
-        id: 3,
-        user: "Priya Singh",
-        form: "Hiring Form",
-        time: "1 hour ago",
-    },
-];
-
-const chartData = [
-    { day: "Mon", responses: 40 },
-    { day: "Tue", responses: 80 },
-    { day: "Wed", responses: 55 },
-    { day: "Thu", responses: 110 },
-    { day: "Fri", responses: 92 },
-    { day: "Sat", responses: 70 },
-    { day: "Sun", responses: 120 },
-];
 
 const Analytics = () => {
+
+    const [stats, setStats] = useState([]);
+    const [chartData, setChartData] = useState([]);
+    const [responses, setResponses] = useState([]);
+    const [forms, setforms] = useState([]);
+    const [performance, setPerformance] = useState([]);
+
+    const fetchAnalysisData = async () => {
+        const statsInfo = await analyticsApis.fetchStats()
+        const formInfo = await analyticsApis.fetchFormInfos()
+        const responseInfo = await analyticsApis.fetchResponseInfos()
+        const chartInfo = await analyticsApis.fetchChartInfos()
+        const performanceInfo = await analyticsApis.fetchPerformance()
+
+        if (statsInfo.success) {
+            setStats(statsInfo.data.headers)
+        }
+        if (chartInfo.success) {
+            setChartData(chartInfo.data)
+        }
+        if (responseInfo.success) {
+            setResponses(responseInfo.data)
+        }
+        if (formInfo.success) {
+            setforms(formInfo.data)
+        }
+
+        if (performanceInfo.success) {
+            setPerformance(performanceInfo.data)
+        }
+    }
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchAnalysisData()
+
+    }, [])
+
     return (
         <div className="min-h-screen bg-[#f7f8f5] p-6">
             <AnalyticsHeader />
 
             <AnalyticsStats stats={stats} />
 
-            <AnalyticsCharts chartData={chartData} />
+            <AnalyticsCharts chartData={chartData} perfomance={performance} />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
                 <RecentForms forms={forms} />
