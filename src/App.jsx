@@ -93,14 +93,14 @@ const AppContent = () => {
           }
         />
 
-        {/* <Route
+        <Route
           path="/signup"
           element={
             <PublicRoute isAuthorized={isAuthorized} loading={loading}>
               <UserCreation />
             </PublicRoute>
           }
-        /> */}
+        />
 
         <Route
           path="/"
