@@ -8,6 +8,7 @@ import {
   Archive,
   Settings,
   Plug,
+  UserCircle,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -49,6 +50,7 @@ const VertNav = () => {
       path: "/home/integrations",
     },
     { name: "Settings", icon: <Settings size={18} />, path: "/home/settings" },
+    { name: "Create User", icon: <UserCircle />, path: "/new-user" }
   ];
   const renderMenu = (menu) =>
     menu.map((item, i) => (
@@ -61,10 +63,9 @@ const VertNav = () => {
           px-4 py-2.5 cursor-pointer rounded-lg mx-2
           transition-all duration-200 my-[4px]
 
-          ${
-            isActive(item.path)
-              ? "bg-[#9FE870]/20 text-[#163300]"
-              : "text-[#1e1f1e] hover:bg-black/5"
+          ${isActive(item.path)
+            ? "bg-[#9FE870]/20 text-[#163300]"
+            : "text-[#1e1f1e] hover:bg-black/5"
           }
         `}
       >
