@@ -7,7 +7,7 @@ import {
     Tooltip,
 } from "recharts";
 
-const AnalyticsCharts = ({ chartData }) => {
+const AnalyticsCharts = ({ chartData, perfomance }) => {
     return (
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
             {/* MAIN CHART */}
@@ -47,38 +47,26 @@ const AnalyticsCharts = ({ chartData }) => {
                 </h2>
 
                 <div className="space-y-5">
-                    <div>
-                        <div className="flex justify-between text-sm mb-2">
-                            <span>Form Completion</span>
-                            <span>82%</span>
-                        </div>
+                    {
+                        perfomance.map((val, key) => {
+                            const percentage = parseFloat(val.value)
+                            return (
+                                <div key={val.title + key}>
+                                    <div className="flex justify-between text-sm mb-2">
+                                        <span>{val.title}</span>
+                                        <span>{val.value}</span>
+                                    </div>
 
-                        <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
-                            <div className="h-full w-[82%] bg-[#9FE870]" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="flex justify-between text-sm mb-2">
-                            <span>User Engagement</span>
-                            <span>68%</span>
-                        </div>
-
-                        <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
-                            <div className="h-full w-[68%] bg-[#163300]" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="flex justify-between text-sm mb-2">
-                            <span>Submission Rate</span>
-                            <span>91%</span>
-                        </div>
-
-                        <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
-                            <div className="h-full w-[91%] bg-cyan-500" />
-                        </div>
-                    </div>
+                                    <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
+                                        <div
+                                            className="h-full bg-[#9FE870]"
+                                            style={{ width: `${percentage}%` }}
+                                        />
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>

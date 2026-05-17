@@ -36,7 +36,7 @@ const Signup = () => {
     <div className="flex min-h-screen items-center justify-center bg-white px-4 font-['Inter',sans-serif]">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-[420px] rounded-2xl border border-black/10 bg-white p-8 shadow-sm"
+        className="w-full max-w-105 rounded-2xl border border-black/10 bg-white p-8 shadow-sm"
       >
         <div className="mb-8">
           <h1 className="text-2xl font-bold tracking-[-0.03em] text-[#0E0F0C]">
