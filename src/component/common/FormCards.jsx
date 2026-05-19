@@ -21,6 +21,7 @@ const FormCard = ({
   size = "md",
   variant = "default",
   className = "",
+  template = false,
 }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
@@ -56,6 +57,19 @@ const FormCard = ({
     }
   };
 
+  const handleDelete = () => {
+    console.log({ title, organization })
+  }
+
+  const changeStatus = async () => {
+    try {
+      const resp = await formsApi.createPublicForm({ title, organization })
+      if (resp.success) return null
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <div
       role="button"
@@ -64,7 +78,7 @@ const FormCard = ({
       onKeyDown={(e) => {
         if (e.key === "Enter") onClick(title, organization);
       }}
-      className={classes + " border-t-4 border-t-[#348303]"}    >
+      className={classes + ` border-t-4 border-t-${template ? "[#c800ff]" : "[#348303]"}`}    >
       {/* 3-dot menu */}
       <div
         ref={menuRef}
@@ -79,8 +93,8 @@ const FormCard = ({
           ⋮
         </button>
 
-        {open && (
-          <div className="absolute right-0 p-2 mt-2 w-40 rounded-lg border bg-white shadow-md z-10">
+        {open && !template && (
+          <div className="absolute right-0 mt-2 w-40 rounded-lg border bg-white shadow-md z-50">
             <button
               type="button"
               onClick={handleCopy}
@@ -89,10 +103,16 @@ const FormCard = ({
               Copy form link
             </button>
             <button
+              className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+              onClick={changeStatus}
+            >
+              Make it Public
+            </button>
+            <button
               className="block w-full px-4 py-2 text-left text-sm hover:bg-red-300"
+              onClick={handleDelete}
             >
               delete
-              \
             </button>
           </div>
         )}

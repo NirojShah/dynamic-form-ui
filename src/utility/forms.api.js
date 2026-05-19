@@ -91,6 +91,16 @@ const submitResponse = async (key, payload) => {
   }
 };
 
+const fetchPublicForms = async ({ page, limit }) => {
+  const resp = await methods.get(`/form/public?page=${page}&limit=${limit}`);
+  return resp;
+};
+
+const createPublicForm = async ({ title, organization }) => {
+  const resp = await methods.put(`/form/public`, { title, organization });
+  return resp;
+};
+
 const formsApi = {
   myforms,
   createForm,
@@ -98,6 +108,8 @@ const formsApi = {
   getPublicFormFields,
   getResponses,
   submitResponse,
+  fetchPublicForms,
+  createPublicForm,
 };
 
 export default formsApi;

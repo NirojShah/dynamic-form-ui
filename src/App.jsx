@@ -20,6 +20,7 @@ import FormPublic from "./component/pages/Form-Public/FormPublic";
 import Analytics from "./component/pages/analytics/Analytics";
 import FormResponse from "./component/pages/form response/FormResponse";
 import UserCreation from "./component/pages/user/UserCreation";
+import Template from "./component/pages/form/templates/Template";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -148,7 +149,7 @@ const AppContent = () => {
           </ProtectedRoute>
           } />
           <Route path="shared" element={<h1>Shared with me</h1>} />
-          <Route path="templates" element={<h1>Templates</h1>} />
+          <Route path="templates" element={<Template />} />
           <Route path="analytics" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading} >
             <Analytics />
           </ProtectedRoute>} />
@@ -165,7 +166,7 @@ const AppContent = () => {
 
         </Route>
 
-        <Route path="/new-user" element={<UserCreation/>}/>
+        <Route path="/new-user" element={<UserCreation />} />
 
         <Route path="/public/:key" element={<FormPublic />} />
       </Routes>
