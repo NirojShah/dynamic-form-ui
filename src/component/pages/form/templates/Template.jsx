@@ -45,6 +45,7 @@ const Template = () => {
 
     useEffect(() => {
         fetchPublicForms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, limit]);
 
     const handleClick = (id) => {
