@@ -30,7 +30,7 @@ const MyForms = () => {
       {forms.map((val) => {
         return (
           <FormCard
-            className="w-[300px]"
+            className="w-80"
             description={val.description}
             organization={val.organizationName}
             title={val.name}
