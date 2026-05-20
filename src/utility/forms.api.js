@@ -101,6 +101,11 @@ const createPublicForm = async ({ title, organization }) => {
   return resp;
 };
 
+const getForm = async ({ title, organization }) => {
+  const resp = await methods.get(`/form/${title}/${organization}`);
+  return resp;
+};
+
 const formsApi = {
   myforms,
   createForm,
@@ -110,6 +115,7 @@ const formsApi = {
   submitResponse,
   fetchPublicForms,
   createPublicForm,
+  getForm,
 };
 
 export default formsApi;
