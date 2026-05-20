@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import formsApi from "../../utility/forms.api";
+import { useNavigate } from "react-router-dom";
 
 const sizeStyles = {
   sm: "p-4 text-sm",
@@ -25,6 +26,7 @@ const FormCard = ({
 }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
+  const navigate = useNavigate()
 
   const classes = [
     "relative w-full rounded-2xl cursor-pointer transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-black/10",
@@ -70,6 +72,10 @@ const FormCard = ({
     }
   }
 
+  const updateForm = () => {
+    navigate(`/home/update-form/${title}/${organization}`)
+  }
+
   return (
     <div
       role="button"
@@ -107,6 +113,12 @@ const FormCard = ({
               onClick={changeStatus}
             >
               Make it Public
+            </button>
+            <button
+              className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+              onClick={updateForm}
+            >
+              update
             </button>
             <button
               className="block w-full px-4 py-2 text-left text-sm hover:bg-red-300"
