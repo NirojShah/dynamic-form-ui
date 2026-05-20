@@ -8,7 +8,7 @@ import FieldLayout from "../../form/FieldLayout";
 const MainLayout = () => {
   const location = useLocation();
 
-  const isCreatePage = location.pathname.includes("/create-form");
+  const isCreatePage = location.pathname.includes("/create-form") || location.pathname.includes("/update-form");
 
   return (
     <div className="h-screen flex flex-col bg-white">
@@ -29,10 +29,9 @@ const MainLayout = () => {
 
         <div>
           {
-          isCreatePage && <FieldLayout />
-
+            isCreatePage && <FieldLayout />
           }
-          
+
         </div>
       </div>
     </div>

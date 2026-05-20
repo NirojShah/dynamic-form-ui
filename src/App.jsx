@@ -21,6 +21,7 @@ import Analytics from "./component/pages/analytics/Analytics";
 import FormResponse from "./component/pages/form response/FormResponse";
 import UserCreation from "./component/pages/user/UserCreation";
 import Template from "./component/pages/form/templates/Template";
+import UpdateForm from "./component/pages/form/update-form/UpdateForm";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -140,6 +141,7 @@ const AppContent = () => {
               <MyForms />
             </ProtectedRoute>
           } />
+          <Route path="update-form/:title/:organization" element={<UpdateForm />} />
           <Route path="create-form" element={
             <ProtectedRoute isAuthorized={isAuthorized} loading={loading}><CreateForm /></ProtectedRoute>
           } />
