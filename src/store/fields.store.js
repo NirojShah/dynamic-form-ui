@@ -45,6 +45,12 @@ const formFieldStore = create((set) => ({
       arr.splice(to, 0, moved);
       return { fields: arr };
     }),
+
+  clearAllFields: () => {
+    set(() => ({
+      fields: [],
+    }));
+  },
 }));
 
 export default formFieldStore;
