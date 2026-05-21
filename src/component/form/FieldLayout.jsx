@@ -5,14 +5,12 @@ import formFieldStore from "../../store/fields.store";
 const Toggle = ({ value, onChange }) => (
   <div
     onClick={() => onChange(!value)}
-    className={`relative w-8 h-[18px] rounded-full cursor-pointer transition-colors duration-200 ${
-      value ? "bg-[#9FE870]" : "bg-black/15"
-    }`}
+    className={`relative w-8 h-4.5 rounded-full cursor-pointer transition-colors duration-200 ${value ? "bg-[#9FE870]" : "bg-black/15"
+      }`}
   >
     <div
-      className={`absolute top-[2px] w-[14px] h-[14px] rounded-full bg-white transition-transform duration-200 ${
-        value ? "translate-x-[14px] left-[2px]" : "left-[2px]"
-      }`}
+      className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white transition-transform duration-200 ${value ? "translate-x-3.5 left-0.5" : "left-0.5"
+        }`}
     />
   </div>
 );
@@ -25,7 +23,7 @@ const Section = ({ label }) => (
 
 const RpInput = ({ value, onChange, placeholder }) => (
   <input
-    className="w-full border border-black/12 rounded-md px-2 py-[6px] text-[13px] text-[#0E0F0C] bg-white outline-none focus:ring-1 focus:ring-[#9FE870] focus:border-[#9FE870] placeholder:text-gray-400"
+    className="w-full border border-black/12 rounded-md px-2 py-1.5 text-[13px] text-[#0E0F0C] bg-white outline-none focus:ring-1 focus:ring-[#9FE870] focus:border-[#9FE870] placeholder:text-gray-400"
     value={value ?? ""}
     onChange={(e) => onChange(e.target.value)}
     placeholder={placeholder}
@@ -39,18 +37,18 @@ const OptionsEditor = ({ options, onChange }) => {
     onChange(options.map((o, idx) => (idx === i ? val : o)));
 
   return (
-    <div className="flex flex-col gap-[6px]">
+    <div className="flex flex-col gap-1.5">
       {options.map((opt, i) => (
-        <div key={i} className="flex items-center gap-[6px]">
+        <div key={i} className="flex items-center gap-1.5">
           <span className="text-gray-300 cursor-grab text-[11px]">⠿</span>
           <input
-            className="flex-1 border border-black/12 rounded-md px-2 py-[5px] text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
+            className="flex-1 border border-black/12 rounded-md px-2 py-1.25 text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
             value={opt}
             onChange={(e) => update(i, e.target.value)}
           />
           <button
             onClick={() => remove(i)}
-            className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded px-[5px] py-[2px] text-[13px] transition"
+            className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded px-1.25 py-0.5 text-[13px] transition"
           >
             ✕
           </button>
@@ -67,9 +65,9 @@ const OptionsEditor = ({ options, onChange }) => {
 };
 
 const LogicSection = ({ rules, onAdd }) => (
-  <div className="flex flex-col gap-[6px]">
-    <div className="flex items-center gap-[6px] px-2 py-[5px] border border-black/10 rounded-md bg-black/[0.02] text-[12px] text-gray-500">
-      <div className="w-[6px] h-[6px] rounded-full bg-[#9FE870]" />
+  <div className="flex flex-col gap-1.5">
+    <div className="flex items-center gap-1.5 px-2 py-1.25 border border-black/10 rounded-md bg-black/2 text-[12px] text-gray-500">
+      <div className="w-1.5 h-1.5 rounded-full bg-[#9FE870]" />
       {rules?.length > 0 ? `${rules.length} rule(s) active` : "Show always"}
     </div>
     <button
@@ -101,51 +99,59 @@ const BaseFields = ({ settings, update }) => (
 );
 
 const fieldDefaults = {
-  text:      { required: false, hidden: false, label: "Short text",     placeholder: "",                helpText: "" },
-  textarea:  { required: false, hidden: false, label: "Long text",      placeholder: "",                helpText: "" },
-  email:     { required: false, hidden: false, label: "Email",          placeholder: "you@example.com", helpText: "" },
-  phone:     { required: false, hidden: false, label: "Phone",          placeholder: "+1 (555) 000-0000", helpText: "" },
-  number:    { required: false, hidden: false, label: "Number",         placeholder: "0",               helpText: "" },
-  radio:     { required: false, hidden: false, label: "Multiple choice",placeholder: "",                helpText: "", options: ["Option 1", "Option 2"] },
-  checkbox:  { required: false, hidden: false, label: "Checkboxes",     placeholder: "",                helpText: "", options: ["Option 1", "Option 2"] },
-  select:    { required: false, hidden: false, label: "Dropdown",       placeholder: "Select…",         helpText: "", options: ["Option 1", "Option 2"] },
-  rating:    { required: false, hidden: false, label: "Rating",         helpText: "", maxStars: 5 },
-  scale:     { required: false, hidden: false, label: "Scale",          helpText: "", min: 1, max: 10 },
-  date:      { required: false, hidden: false, label: "Date",           helpText: "" },
-  file:      { required: false, hidden: false, label: "File upload",    helpText: "" },
-  signature: { required: false, hidden: false, label: "Signature",      helpText: "" },
-  heading:   { label: "Heading", level: "h2" },
-  divider:   {},
+  text: { required: false, hidden: false, label: "Short text", placeholder: "", helpText: "" },
+  textarea: { required: false, hidden: false, label: "Long text", placeholder: "", helpText: "" },
+  email: { required: false, hidden: false, label: "Email", placeholder: "you@example.com", helpText: "" },
+  phone: { required: false, hidden: false, label: "Phone", placeholder: "+1 (555) 000-0000", helpText: "" },
+  number: { required: false, hidden: false, label: "Number", placeholder: "0", helpText: "" },
+  radio: { required: false, hidden: false, label: "Multiple choice", placeholder: "", helpText: "", options: ["Option 1", "Option 2"] },
+  checkbox: { required: false, hidden: false, label: "Checkboxes", placeholder: "", helpText: "", options: ["Option 1", "Option 2"] },
+  select: { required: false, hidden: false, label: "Dropdown", placeholder: "Select…", helpText: "", options: ["Option 1", "Option 2"] },
+  rating: { required: false, hidden: false, label: "Rating", helpText: "", maxStars: 5 },
+  scale: { required: false, hidden: false, label: "Scale", helpText: "", min: 1, max: 10 },
+  date: { required: false, hidden: false, label: "Date", helpText: "" },
+  file: { required: false, hidden: false, label: "File upload", helpText: "" },
+  signature: { required: false, hidden: false, label: "Signature", helpText: "" },
+  heading: { label: "Heading", level: "h2" },
+  divider: {},
 };
 
 const FieldLayout = () => {
-  const type        = formFieldStore((s) => s.type);
-  const label       = formFieldStore((s) => s.label);
-  const selectedId  = formFieldStore((s) => s.selectedId);
+  // ✅ Read the full selected field object instead of just type/label/selectedId
+  const selectedField = formFieldStore((s) =>
+    s.fields.find((f) => f.id === s.selectedId)
+  );
+  const selectedId = formFieldStore((s) => s.selectedId);
   const updateField = formFieldStore((s) => s.updateField);
   const removeField = formFieldStore((s) => s.removeField);
 
   const [settings, setSettings] = useState({});
 
-  // When a new field type is selected, load its defaults + the current label
+  // ✅ Seed settings from actual field data — real values override defaults
   useEffect(() => {
-    if (type) {
-      setSettings({ ...(fieldDefaults[type] || {}), label });
+    if (selectedField) {
+      setSettings({
+        ...(fieldDefaults[selectedField.type] || {}), // safe defaults as fallback
+        ...selectedField,                              // actual stored values win
+      });
     }
-  }, [type]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedField?.id]); // only re-seed when the selected field ID changes
+
+  // Derive type from the selected field, not a separate store slice
+  const type = selectedField?.type;
 
   if (!type) return null;
 
-  // Update local state AND sync to the store's fields array in one go
   const update = (key, val) => {
     setSettings((prev) => ({ ...prev, [key]: val }));
     if (selectedId) updateField(selectedId, { [key]: val });
   };
 
-  const isChoice       = ["radio", "checkbox", "select"].includes(type);
+  const isChoice = ["radio", "checkbox", "select"].includes(type);
   const hasPlaceholder = ["text", "textarea", "email", "phone", "number", "select"].includes(type);
-  const hasHelpText    = !["divider", "heading"].includes(type);
-  const hasLogic       = !["divider", "heading"].includes(type);
+  const hasHelpText = !["divider", "heading"].includes(type);
+  const hasLogic = !["divider", "heading"].includes(type);
   const hasBaseToggles = !["divider", "heading"].includes(type);
 
   return (
@@ -153,13 +159,13 @@ const FieldLayout = () => {
       {/* HEADER */}
       <div className="px-4 py-3 border-b border-black/8 bg-[#fafaf9]">
         <div className="text-[13px] font-semibold text-[#0E0F0C]">Field settings</div>
-        <div className="text-[11px] text-gray-400 capitalize mt-[2px]">
+        <div className="text-[11px] text-gray-400 capitalize mt-0.5">
           {settings.label || type}
         </div>
       </div>
 
       {/* BODY */}
-      <div className="p-4 flex flex-col gap-[12px] overflow-y-auto flex-1">
+      <div className="p-4 flex flex-col gap-3 overflow-y-auto flex-1">
 
         {/* ── DIVIDER ── */}
         {type === "divider" && (
@@ -177,7 +183,7 @@ const FieldLayout = () => {
             />
             <Section label="Level" />
             <select
-              className="w-full border border-black/12 rounded-md px-2 py-[6px] text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
+              className="w-full border border-black/12 rounded-md px-2 py-1.5 text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
               value={settings.level || "h2"}
               onChange={(e) => update("level", e.target.value)}
             >
@@ -188,7 +194,7 @@ const FieldLayout = () => {
           </>
         )}
 
-        {/* ── BASE TOGGLES ── */}
+        {/* ── BASE TOGGLES (required / hidden / label) ── */}
         {hasBaseToggles && <BaseFields settings={settings} update={update} />}
 
         {/* ── PLACEHOLDER ── */}
@@ -261,7 +267,7 @@ const FieldLayout = () => {
                 type="number"
                 value={settings.min ?? 1}
                 onChange={(e) => update("min", +e.target.value)}
-                className="w-full border border-black/12 rounded-md px-2 py-[6px] text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
+                className="w-full border border-black/12 rounded-md px-2 py-1.5 text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
                 placeholder="Min"
               />
               <span className="text-gray-400 text-[12px]">to</span>
@@ -269,7 +275,7 @@ const FieldLayout = () => {
                 type="number"
                 value={settings.max ?? 10}
                 onChange={(e) => update("max", +e.target.value)}
-                className="w-full border border-black/12 rounded-md px-2 py-[6px] text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
+                className="w-full border border-black/12 rounded-md px-2 py-1.5 text-[13px] outline-none focus:ring-1 focus:ring-[#9FE870]"
                 placeholder="Max"
               />
             </div>
@@ -280,7 +286,7 @@ const FieldLayout = () => {
         {hasLogic && (
           <>
             <Section label="Logic" />
-            <LogicSection rules={settings.rules} onAdd={() => {}} />
+            <LogicSection rules={settings.rules} onAdd={() => { }} />
           </>
         )}
 
@@ -289,7 +295,7 @@ const FieldLayout = () => {
           <div className="mt-2">
             <button
               onClick={() => removeField(selectedId)}
-              className="w-full py-[7px] rounded-md border border-red-200 bg-red-50 text-red-600 text-[12px] hover:bg-red-100 transition"
+              className="w-full py-1.75 rounded-md border border-red-200 bg-red-50 text-red-600 text-[12px] hover:bg-red-100 transition"
             >
               Remove field
             </button>
