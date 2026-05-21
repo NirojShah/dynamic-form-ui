@@ -1,5 +1,5 @@
 // CreateForm.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import formFieldStore from "../../../../store/fields.store";
 import Button from "../../../common/Button";
 import formsApi from "../../../../utility/forms.api";
@@ -22,7 +22,7 @@ const FieldInput = ({ field }) => {
 
     case "textarea":
       return (
-        <div className={`${inputCls} min-h-[64px]`}>
+        <div className={`${inputCls} min-h-16`}>
           {field.placeholder || <span className="text-gray-300">—</span>}
         </div>
       );
@@ -37,13 +37,13 @@ const FieldInput = ({ field }) => {
 
     case "radio":
       return (
-        <div className="flex flex-col gap-[6px]">
+        <div className="flex flex-col gap-1.5">
           {(field.options || []).map((opt, i) => (
             <div
               key={i}
               className="flex items-center gap-2 text-[13px] text-gray-500"
             >
-              <div className="w-[14px] h-[14px] rounded-full border border-gray-300 flex-shrink-0" />
+              <div className="w-3.5 h-3.5 rounded-full border border-gray-300 shrink-0" />
               {opt}
             </div>
           ))}
@@ -52,13 +52,13 @@ const FieldInput = ({ field }) => {
 
     case "checkbox":
       return (
-        <div className="flex flex-col gap-[6px]">
+        <div className="flex flex-col gap-1.5">
           {(field.options || []).map((opt, i) => (
             <div
               key={i}
               className="flex items-center gap-2 text-[13px] text-gray-500"
             >
-              <div className="w-[14px] h-[14px] rounded border border-gray-300 flex-shrink-0" />
+              <div className="w-3.5 h-3.5 rounded border border-gray-300 shrink-0" />
               {opt}
             </div>
           ))}
@@ -80,7 +80,7 @@ const FieldInput = ({ field }) => {
       return (
         <div className="flex items-center gap-2 text-[12px] text-gray-400">
           <span>{field.min ?? 1}</span>
-          <div className="flex-1 h-[3px] bg-gray-100 rounded-full" />
+          <div className="flex-1 h-0.75 bg-gray-100 rounded-full" />
           <span>{field.max ?? 10}</span>
         </div>
       );
@@ -131,16 +131,15 @@ const FieldPreview = ({ field, isSelected, onClick }) => {
     <div
       onClick={onClick}
       className={`relative group rounded-lg border transition-all cursor-pointer
-        ${
-          isSelected
-            ? "border-[#9FE870] bg-[#f7fff2] shadow-sm"
-            : "border-black/10 bg-white hover:border-black/20"
+        ${isSelected
+          ? "border-[#9FE870] bg-[#f7fff2] shadow-sm"
+          : "border-black/10 bg-white hover:border-black/20"
         }
         ${isLayout ? "px-4 py-3" : "px-4 pt-3 pb-4"}
       `}
     >
       {/* drag handle — visible on hover */}
-      <span className="absolute left-[6px] top-1/2 -translate-y-1/2 text-gray-300 text-[11px] opacity-0 group-hover:opacity-100 cursor-grab select-none">
+      <span className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-300 text-[11px] opacity-0 group-hover:opacity-100 cursor-grab select-none">
         ⠿
       </span>
 
@@ -153,13 +152,13 @@ const FieldPreview = ({ field, isSelected, onClick }) => {
 
       {/* label + help text (skip for layout fields) */}
       {!isLayout && (
-        <div className="mb-[8px]">
+        <div className="mb-2">
           <span className="text-[13px] font-medium text-[#0E0F0C]">
             {field.label || field.type}
           </span>
-          {field.required && <span className="text-red-400 ml-[2px]">*</span>}
+          {field.required && <span className="text-red-400 ml-0.5">*</span>}
           {field.helpText && (
-            <p className="text-[11px] text-gray-400 mt-[2px]">
+            <p className="text-[11px] text-gray-400 mt-0.5">
               {field.helpText}
             </p>
           )}
@@ -171,7 +170,7 @@ const FieldPreview = ({ field, isSelected, onClick }) => {
   );
 };
 
-const CreateForm = () => {
+const CreateForm = ({ formTitle = "", formDescription = "" }) => {
   const fields = formFieldStore((s) => s.fields);
   const selectedId = formFieldStore((s) => s.selectedId);
   const addField = formFieldStore((s) => s.addField);
@@ -181,6 +180,12 @@ const CreateForm = () => {
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setDesc(formDescription);
+    setTitle(formTitle);
+  }, [formTitle, formDescription])
 
   const handleAddField = () => {
     const newField = {
@@ -206,11 +211,11 @@ const CreateForm = () => {
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#f5f5f3] p-6 flex flex-col items-center">
-      <div className="w-full max-w-[600px] flex flex-col gap-3">
+      <div className="w-full max-w-150 flex flex-col gap-3">
         {/* FORM HEADER CARD */}
         <div className="bg-white rounded-xl border border-black/8 overflow-hidden">
-          <div className="h-[6px] bg-[#9FE870]" />
-          <div className="p-5 flex flex-col gap-[6px]">
+          <div className="h-1.5 bg-[#9FE870]" />
+          <div className="p-5 flex flex-col gap-1.5">
             <input
               className="text-xl font-semibold text-[#0E0F0C] outline-none placeholder:text-gray-300 bg-transparent w-full"
               placeholder="Form title…"
@@ -253,15 +258,15 @@ const CreateForm = () => {
       </div>
       <div className="m-2">
 
-      <Button
-        type="primary"
-        onClick={() => {
-          handleCreateform(field, title, desc);
-        }}
+        <Button
+          type="primary"
+          onClick={() => {
+            handleCreateform(field, title, desc);
+          }}
         >
-        submit
-      </Button>
-        </div>
+          submit
+        </Button>
+      </div>
     </div>
   );
 };
