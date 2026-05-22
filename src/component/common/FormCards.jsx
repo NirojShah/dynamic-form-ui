@@ -76,6 +76,10 @@ const FormCard = ({
     navigate(`/home/update-form/${title}/${organization}`)
   }
 
+  const markAsArchive = async (title) => {
+    await formsApi.markFormAsArchive({ title })
+  }
+
   return (
     <div
       role="button"
@@ -113,6 +117,12 @@ const FormCard = ({
               onClick={changeStatus}
             >
               Make it Public
+            </button>
+            <button
+              className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+              onClick={() => { markAsArchive(title) }}
+            >
+              Mark as archive
             </button>
             <button
               className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
