@@ -106,6 +106,21 @@ const getForm = async ({ title, organization }) => {
   return resp;
 };
 
+const updateForm = async ({ title, description, fields, initialname }) => {
+  const resp = await methods.put("/form/update", {
+    title: title,
+    description: description,
+    fields,
+    initialname,
+  });
+  return resp;
+};
+
+const markFormAsArchive = async ({ title }) => {
+  const resp = await methods.patch("/form/archive", { title });
+  return resp;
+};
+
 const formsApi = {
   myforms,
   createForm,
@@ -116,6 +131,8 @@ const formsApi = {
   fetchPublicForms,
   createPublicForm,
   getForm,
+  updateForm,
+  markFormAsArchive,
 };
 
 export default formsApi;

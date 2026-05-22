@@ -170,7 +170,7 @@ const FieldPreview = ({ field, isSelected, onClick }) => {
   );
 };
 
-const CreateForm = ({ formTitle = "", formDescription = "" }) => {
+const CreateForm = ({ formTitle = "", formDescription = "", isUpdate = false }) => {
   const fields = formFieldStore((s) => s.fields);
   const selectedId = formFieldStore((s) => s.selectedId);
   const addField = formFieldStore((s) => s.addField);
@@ -208,6 +208,10 @@ const CreateForm = ({ formTitle = "", formDescription = "" }) => {
       console.log(err);
     }
   };
+
+  const handleUpdateForm = async (fields, title, desc) => {
+    await formsApi.updateForm({ description: desc, title: title, fields, initialname: formTitle })
+  }
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#f5f5f3] p-6 flex flex-col items-center">
@@ -257,15 +261,31 @@ const CreateForm = ({ formTitle = "", formDescription = "" }) => {
         </button>
       </div>
       <div className="m-2">
+        {
+          isUpdate &&
 
-        <Button
-          type="primary"
-          onClick={() => {
-            handleCreateform(field, title, desc);
-          }}
-        >
-          submit
-        </Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              handleUpdateForm(field, title, desc);
+            }}
+          >
+            update
+          </Button>
+        }
+
+        {
+          !isUpdate &&
+          <Button
+            type="primary"
+            onClick={() => {
+              handleCreateform(field, title, desc);
+            }}
+          >
+            submit
+          </Button>
+        }
+
       </div>
     </div>
   );
