@@ -1,4 +1,4 @@
- 
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CreateForm from "../create-form/CreateForm";
@@ -14,7 +14,7 @@ const UpdateFormPage = () => {
 
     useEffect(() => {
         loadForm();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const loadForm = async () => {
@@ -54,7 +54,7 @@ const UpdateFormPage = () => {
 
     return (
         <div className="flex h-screen bg-[#f5f5f3] overflow-hidden">
-            <CreateForm mode="update" formTitle={title} formDescription={desc} />
+            <CreateForm mode="update" formTitle={title} formDescription={desc} isUpdate={true} />
         </div>
     );
 };
