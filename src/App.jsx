@@ -22,6 +22,7 @@ import FormResponse from "./component/pages/form response/FormResponse";
 import UserCreation from "./component/pages/user/UserCreation";
 import Template from "./component/pages/form/templates/Template";
 import UpdateForm from "./component/pages/form/update-form/UpdateForm";
+import Archive from "./component/pages/archive/Archive";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -157,7 +158,7 @@ const AppContent = () => {
           </ProtectedRoute>} />
           <Route path="client" element={<h1>Client Work</h1>} />
           <Route path="surveys" element={<h1>Surveys</h1>} />
-          <Route path="archive" element={<h1>Archive</h1>} />
+          <Route path="archive" element={<Archive />} />
           <Route path="integrations" element={<h1>Integrations</h1>} />
           <Route path="settings" element={<h1>Settings</h1>} />
           <Route path="response/:formId" element={<FormResponse />} />
