@@ -121,6 +121,11 @@ const markFormAsArchive = async ({ title }) => {
   return resp;
 };
 
+const getAllArchiveForm = async () => {
+  const resp = await methods.get("/form/archieved");
+  return resp;
+};
+
 const formsApi = {
   myforms,
   createForm,
@@ -133,6 +138,7 @@ const formsApi = {
   getForm,
   updateForm,
   markFormAsArchive,
+  getAllArchiveForm,
 };
 
 export default formsApi;
