@@ -23,6 +23,7 @@ import UserCreation from "./component/pages/user/UserCreation";
 import Template from "./component/pages/form/templates/Template";
 import UpdateForm from "./component/pages/form/update-form/UpdateForm";
 import Archive from "./component/pages/archive/Archive";
+import Profile from "./component/pages/user/Profile";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -146,7 +147,9 @@ const AppContent = () => {
           <Route path="create-form" element={
             <ProtectedRoute isAuthorized={isAuthorized} loading={loading}><CreateForm /></ProtectedRoute>
           } />
-          <Route path="profile" element={<h1>Profile</h1>} />
+          <Route path="profile" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading}>
+            <Profile />
+          </ProtectedRoute>} />
           <Route path="myforms" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading} >
             <MyForms />
           </ProtectedRoute>
