@@ -32,7 +32,7 @@ const signUp = async ({ name, email, password, organizationId }) => {
 
 const getMe = async () => {
   try {
-    const resp = await methods.get("/user/me");    
+    const resp = await methods.get("/user/me");
     return resp;
   } catch (err) {
     return {
@@ -42,10 +42,25 @@ const getMe = async () => {
   }
 };
 
+const updateProfile = async (payload) => {
+  const resp = await methods.patch("/user/update", payload);
+  return resp;
+};
+
+const updatePassword = async ({ curPass, newPass }) => {
+  const resp = await methods.patch("/user/update/password", {
+    curPass,
+    newPass,
+  });
+  return resp;
+};
+
 const userApis = {
   login,
   signUp,
   getMe,
+  updateProfile,
+  updatePassword,
 };
 
 export default userApis;

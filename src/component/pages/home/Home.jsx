@@ -23,7 +23,7 @@ const MainLayout = () => {
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 bg-[#f5f5f3]">
           <Outlet />
         </div>
 
