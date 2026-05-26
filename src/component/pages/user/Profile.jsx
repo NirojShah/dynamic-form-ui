@@ -323,7 +323,7 @@ const Profile = () => {
             {/* PASSWORD BUTTON */}
             <button
               onClick={handlePasswordUpdate}
-              className=" mt-2 px-5 py-3 rounded-xl border border-black/10 bg-white text-[#0E0F0C] font-medium hover:bg-black/[0.03] transition
+              className=" mt-2 px-5 py-3 rounded-xl border border-black/10 bg-white text-[#0E0F0C] font-medium hover:bg-black/3 transition
               "
             >
               Update Password
