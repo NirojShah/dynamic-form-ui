@@ -81,6 +81,7 @@ const AppContent = () => {
     if (!shouldSkip) {
       checkIsAuthenticated();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

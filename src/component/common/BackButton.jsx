@@ -12,7 +12,7 @@ const BackButton = ({ title, path }) => {
         navigate(path)
     }
     return (
-        <button onClick={handleBack} className='flex flex-row gap-[6px] justify-center content-center cursor-pointer'>
+        <button onClick={handleBack} className='flex flex-row gap-1.5 justify-center content-center cursor-pointer'>
             <ArrowLeft width={"18px"} />
             <span>
                 {title}
