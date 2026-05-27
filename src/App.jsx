@@ -58,6 +58,7 @@ const AppContent = () => {
         userName: resp.data?.name,
         email: resp.data?.email,
         organization: resp.data?.organizationName,
+        orgId: resp.data?.orgId
       });
       setIsAuthorized(resp?.status === "success");
       // }
@@ -81,8 +82,8 @@ const AppContent = () => {
     if (!shouldSkip) {
       checkIsAuthenticated();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [window.location.href]);
 
   return (
     <BrowserRouter>
@@ -92,9 +93,9 @@ const AppContent = () => {
         <Route
           path="/login"
           element={
-            <PublicRoute isAuthorized={isAuthorized} loading={loading}>
-              <Login />
-            </PublicRoute>
+            // <PublicRoute isAuthorized={isAuthorized} loading={loading}>
+              <Login setAuthorization={setIsAuthorized} />
+            // </PublicRoute>
           }
         />
 
@@ -176,6 +177,7 @@ const AppContent = () => {
         <Route path="/new-user" element={<UserCreation />} />
 
         <Route path="/public/:key" element={<FormPublic />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );
