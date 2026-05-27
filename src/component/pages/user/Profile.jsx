@@ -8,6 +8,7 @@ import {
   Eye,
   EyeOff,
   Save,
+  IdCardIcon,
 } from "lucide-react";
 import BackButton from "../../common/BackButton";
 import userApis from "../../../utility/user.api";
@@ -16,6 +17,7 @@ const Profile = () => {
   const storeName = userStore((state) => state.userName);
   const storeEmail = userStore((state) => state.email);
   const organization = userStore((state) => state.organization);
+  const orgId = userStore((state) => state.orgId);
 
   const [name, setName] = useState(storeName || "");
   const [email, setEmail] = useState(storeEmail || "");
@@ -196,6 +198,21 @@ const Profile = () => {
 
                 <span className="text-sm text-[#0E0F0C]">
                   {organization || "-"}
+                </span>
+              </div>
+
+              <label className="text-xs text-gray-500 mb-2 block">
+                Organization Id
+              </label>
+
+              <div className="flex items-center gap-3 border border-black/10 rounded-xl px-4 py-3 bg-[#fafaf9]">
+                <IdCardIcon
+                  size={16}
+                  className="text-gray-400"
+                />
+
+                <span className="text-sm text-[#0E0F0C]">
+                  {orgId || "-"}
                 </span>
               </div>
 
