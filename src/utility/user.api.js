@@ -3,7 +3,7 @@ import methods from "../api-instance/apiInstance";
 const login = async ({ email, password }) => {
   try {
     const resp = await methods.post("/user/login", { email, password }, false);
-    if (resp.status == "success") {
+    if (resp.success) {
       localStorage.setItem("token", resp.token);
       return {
         success: true,
