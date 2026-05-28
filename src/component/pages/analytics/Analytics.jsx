@@ -8,9 +8,7 @@ import RecentResponses from "./RecentResponses";
 import QuickActions from "./QuickActions";
 import analyticsApis from "../../../utility/analytics.api";
 
-
 const Analytics = () => {
-
     const [stats, setStats] = useState([]);
     const [chartData, setChartData] = useState([]);
     const [responses, setResponses] = useState([]);
@@ -18,35 +16,64 @@ const Analytics = () => {
     const [performance, setPerformance] = useState([]);
 
     const fetchAnalysisData = async () => {
-        const statsInfo = await analyticsApis.fetchStats()
-        const formInfo = await analyticsApis.fetchFormInfos()
-        const responseInfo = await analyticsApis.fetchResponseInfos()
-        const chartInfo = await analyticsApis.fetchChartInfos()
-        const performanceInfo = await analyticsApis.fetchPerformance()
+        try {
+            const [
+                statsResult,
+                formResult,
+                responseResult,
+                chartResult,
+                performanceResult,
+            ] = await Promise.allSettled([
+                analyticsApis.fetchStats(),
+                analyticsApis.fetchFormInfos(),
+                analyticsApis.fetchResponseInfos(),
+                analyticsApis.fetchChartInfos(),
+                analyticsApis.fetchPerformance(),
+            ]);
 
-        if (statsInfo.success) {
-            setStats(statsInfo.data.headers)
-        }
-        if (chartInfo.success) {
-            setChartData(chartInfo.data)
-        }
-        if (responseInfo.success) {
-            setResponses(responseInfo.data)
-        }
-        if (formInfo.success) {
-            setforms(formInfo.data)
-        }
+            if (
+                statsResult.status === "fulfilled" &&
+                statsResult.value.success
+            ) {
+                setStats(statsResult.value.data.headers);
+            }
 
-        if (performanceInfo.success) {
-            setPerformance(performanceInfo.data)
+            if (
+                chartResult.status === "fulfilled" &&
+                chartResult.value.success
+            ) {
+                setChartData(chartResult.value.data);
+            }
+
+            if (
+                responseResult.status === "fulfilled" &&
+                responseResult.value.success
+            ) {
+                setResponses(responseResult.value.data);
+            }
+
+            if (
+                formResult.status === "fulfilled" &&
+                formResult.value.success
+            ) {
+                setforms(formResult.value.data);
+            }
+
+            if (
+                performanceResult.status === "fulfilled" &&
+                performanceResult.value.success
+            ) {
+                setPerformance(performanceResult.value.data);
+            }
+        } catch (err) {
+            console.log(err);
         }
-    }
+    };
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        fetchAnalysisData()
-
-    }, [])
+        fetchAnalysisData();
+    }, []);
 
     return (
         <div className="min-h-screen bg-[#f7f8f5] p-6">
@@ -54,7 +81,10 @@ const Analytics = () => {
 
             <AnalyticsStats stats={stats} />
 
-            <AnalyticsCharts chartData={chartData} perfomance={performance} />
+            <AnalyticsCharts
+                chartData={chartData}
+                perfomance={performance}
+            />
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
                 <RecentForms forms={forms} />
