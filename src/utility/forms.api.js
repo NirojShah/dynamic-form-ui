@@ -126,6 +126,13 @@ const getAllArchiveForm = async () => {
   return resp;
 };
 
+const getFavoriteForms = async () => {
+  const resp = await methods.get("/form/favourite");
+  return resp;
+};
+
+const markFormAsFavorite = async () => {};
+
 const formsApi = {
   myforms,
   createForm,
@@ -139,6 +146,8 @@ const formsApi = {
   updateForm,
   markFormAsArchive,
   getAllArchiveForm,
+  getFavoriteForms,
+  markFormAsFavorite,
 };
 
 export default formsApi;
