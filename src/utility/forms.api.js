@@ -131,7 +131,10 @@ const getFavoriteForms = async () => {
   return resp;
 };
 
-const markFormAsFavorite = async () => {};
+const markFormAsFavorite = async ({ key }) => {
+  const resp = await methods.patch("/form/mark-as-favourite", { key });
+  return resp;
+};
 
 const formsApi = {
   myforms,
