@@ -23,6 +23,7 @@ const FormCard = ({
   variant = "default",
   className = "",
   template = false,
+  // favorite = true,
 }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
@@ -72,12 +73,23 @@ const FormCard = ({
     }
   }
 
+  const handleMarkAsFavorite = async () => {
+    const resp = await formsApi.markFormAsFavorite({ title })
+    if (resp.success) {
+      setOpen(false)
+    }
+  }
+
   const updateForm = () => {
     navigate(`/home/update-form/${title}/${organization}`)
   }
 
   const markAsArchive = async (title) => {
-    await formsApi.markFormAsArchive({ title })
+    try {
+      await formsApi.markFormAsArchive({ title })
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
   return (
@@ -130,12 +142,21 @@ const FormCard = ({
             >
               update
             </button>
+
+            <button
+              className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+              onClick={handleMarkAsFavorite}
+            >
+              mark as favorite
+            </button>
+
             <button
               className="block w-full px-4 py-2 text-left text-sm hover:bg-red-300"
               onClick={handleDelete}
             >
               delete
             </button>
+
           </div>
         )}
       </div>
