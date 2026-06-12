@@ -1,4 +1,5 @@
 import methods from "../api-instance/apiInstance";
+import { showError, showSuccess } from "../notification/notification.service";
 
 const myforms = async () => {
   try {
@@ -131,8 +132,13 @@ const getFavoriteForms = async () => {
   return resp;
 };
 
-const markFormAsFavorite = async ({ key }) => {
-  const resp = await methods.patch("/form/mark-as-favourite", { key });
+const markFormAsFavorite = async ({ title }) => {
+  const resp = await methods.patch("/form/mark-as-favourite", { title });
+  if (!resp.success) {
+    showError(resp.message);
+  } else {
+    showSuccess(resp.message);
+  }
   return resp;
 };
 
