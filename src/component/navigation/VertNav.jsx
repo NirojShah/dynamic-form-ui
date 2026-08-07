@@ -9,6 +9,8 @@ import {
   Settings,
   Plug,
   UserCircle,
+  LucideSquareCenterlineDashedHorizontal,
+  Heart
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -38,7 +40,8 @@ const VertNav = () => {
   ];
 
   const foldersMenu = [
-    { name: "Client Work", icon: <Folder size={18} />, path: "/home/client" },
+    { name: "Client Work", icon: <LucideSquareCenterlineDashedHorizontal size={18} />, path: "/home/client" },
+    { name: "Favourite", icon: <Heart size={18} />, path: "/home/favorites" },
     { name: "Surveys", icon: <Folder size={18} />, path: "/home/surveys" },
     { name: "Archive", icon: <Archive size={18} />, path: "/home/archive" },
   ];
