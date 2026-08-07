@@ -4,7 +4,7 @@ import formsApi from '../../../utility/forms.api';
 import FormCard from '../../common/FormCards';
 import BackButton from '../../common/BackButton';
 
-const Favorites = () => {
+export const Favorite = () => {
 
     // const navigate = useNavigate();
     const [favoriteForms, setFavoriteForms] = useState([]);
@@ -50,5 +50,3 @@ const Favorites = () => {
         </div>
     )
 }
-
-export default Favorites
