@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom'
 import formsApi from '../../../utility/forms.api';
 import BackButton from '../../common/BackButton';
 import DynamicResponseTable from '../../common/DynamicResponseTable';
+import ChatComponent from '../../chat-component/ChatComponent';
+import chatFunctions from '../../../utility/form.chat.api';
 
 const FormResponse = () => {
     const { formId } = useParams()
@@ -22,13 +24,19 @@ const FormResponse = () => {
             setFields(resp.fields);
         }
         fetchResponse(formId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, [formId])
+    const handleAskQuestion = async (query, formId) => {
+        const resp = await chatFunctions.sendMessage(query, formId)
+        setResponse(resp.data)
+    }
 
     return (
         <div className='flex flex-col items-start gap-2'>
             <BackButton title={"My form"} />
             <DynamicResponseTable fields={fields} data={response} />
+            <ChatComponent formId={formId} onMessageSent={handleAskQuestion} />
         </div>
     )
 }
