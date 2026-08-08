@@ -24,6 +24,8 @@ import Template from "./component/pages/form/templates/Template";
 import UpdateForm from "./component/pages/form/update-form/UpdateForm";
 import Archive from "./component/pages/archive/Archive";
 import Profile from "./component/pages/user/Profile";
+import { Favorite } from "./component/pages/favorites/Favorite";
+import ChatComponent from "./component/chat-component/ChatComponent";
 
 const ProtectedRoute = ({ isAuthorized, loading, children }) => {
   if (loading) return <h1>Loading...</h1>;
@@ -94,7 +96,7 @@ const AppContent = () => {
           path="/login"
           element={
             // <PublicRoute isAuthorized={isAuthorized} loading={loading}>
-              <Login setAuthorization={setIsAuthorized} />
+            <Login setAuthorization={setIsAuthorized} />
             // </PublicRoute>
           }
         />
@@ -161,7 +163,9 @@ const AppContent = () => {
           <Route path="analytics" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading} >
             <Analytics />
           </ProtectedRoute>} />
-          <Route path="client" element={<h1>Client Work</h1>} />
+          <Route path="favorites" element={<ProtectedRoute isAuthorized={isAuthorized} loading={loading} >
+            <Favorite />
+          </ProtectedRoute>} />
           <Route path="surveys" element={<h1>Surveys</h1>} />
           <Route path="archive" element={<Archive />} />
           <Route path="integrations" element={<h1>Integrations</h1>} />
